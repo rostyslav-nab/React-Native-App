@@ -16,33 +16,27 @@ import { loadImages } from "../store/actions/image";
 export const MainScreen = ({ navigation }) => {
   const [isloading, setIsLoading] = useState(false);
   const [images, setImages] = useState("");
-  // const imageData = images; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
+  // Данные с images нужно передать в actions -> images.js в поле payLoad (не получилось...)
   const openPostHandler = (images) => {
     navigation.navigate("OpenPhoto", {
       link: images.urls.regular,
     });
   };
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loadImages());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadImages());
+  // }, [dispatch]);
 
-  const allImages = useSelector((state) => state.image.allImages);
+  // const allImages = useSelector((state) => state.image.allImages);
 
   const loadWallpapers = () => {
     axios
       .get(`${ROOT_URL}/random?count=30&client_id=${client_id}`)
       .then((response) => {
         setImages(response.data);
-        // dispatch(
-        //   loadImages({
-        //     type: "LOAD_IMAGES",
-        //     payload: response.data,
-        //   })
-        // );
       })
       .catch((error) => console.log(error))
       .finally(() => console.log("request completed"));
@@ -59,6 +53,7 @@ export const MainScreen = ({ navigation }) => {
         color={THEME.DESCRIPTION_TEXT_COLOR}
         onPress={loadWallpapers}
       />
+
       <FlatList
         // pagingEnabled Плавность прокрутки
         data={images}
